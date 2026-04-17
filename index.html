@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GitChameleon 2.0</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #f8f9fa;
+      color: #212529;
+      line-height: 1.6;
+    }
+
+    a { color: #2563eb; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .container { max-width: 900px; margin: 0 auto; padding: 0 1.5rem; }
+
+    /* Header */
+    header {
+      background: #fff;
+      border-bottom: 1px solid #e5e7eb;
+      padding: 3rem 0 2rem;
+      text-align: center;
+    }
+    header img { width: 90px; margin-bottom: 1rem; }
+    header h1 { font-size: 2.4rem; font-weight: 700; margin-bottom: 0.4rem; }
+    .venue-badge {
+      display: inline-block;
+      background: #1d4ed8;
+      color: #fff;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      margin-bottom: 1.2rem;
+    }
+    .authors {
+      font-size: 0.95rem;
+      color: #4b5563;
+      margin-bottom: 1.5rem;
+      line-height: 1.8;
+    }
+    .btn-row { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.5rem 1.2rem;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      border: 1.5px solid transparent;
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+    .btn:hover { opacity: 0.85; text-decoration: none; }
+    .btn-primary { background: #1d4ed8; color: #fff; border-color: #1d4ed8; }
+    .btn-outline { background: #fff; color: #374151; border-color: #d1d5db; }
+
+    /* Main */
+    main { padding: 3rem 0; }
+
+    section { margin-bottom: 3rem; }
+    section h2 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      padding-bottom: 0.4rem;
+      border-bottom: 2px solid #e5e7eb;
+    }
+    p { margin-bottom: 0.8rem; }
+
+    /* Stats */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+      margin-top: 1.2rem;
+    }
+    .stat-card {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      padding: 1.2rem 1rem;
+      text-align: center;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    .stat-card .number { font-size: 2rem; font-weight: 700; color: #1d4ed8; }
+    .stat-card .label { font-size: 0.85rem; color: #6b7280; margin-top: 0.2rem; }
+
+    /* Example task */
+    .task-box {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      padding: 1.5rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    .task-meta {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.8rem;
+    }
+    .tag {
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      background: #eff6ff;
+      color: #1d4ed8;
+      border: 1px solid #bfdbfe;
+    }
+    .task-box .problem {
+      font-style: italic;
+      color: #374151;
+      margin-bottom: 1rem;
+    }
+    pre {
+      background: #1e293b;
+      color: #e2e8f0;
+      border-radius: 8px;
+      padding: 1rem 1.2rem;
+      overflow-x: auto;
+      font-size: 0.85rem;
+      line-height: 1.55;
+      margin-bottom: 0.8rem;
+    }
+    .task-note {
+      font-size: 0.85rem;
+      color: #6b7280;
+      margin-top: 0.8rem;
+      padding: 0.75rem 1rem;
+      background: #fefce8;
+      border-left: 3px solid #fbbf24;
+      border-radius: 0 6px 6px 0;
+    }
+
+    /* Results */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+      background: #fff;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    thead { background: #1e293b; color: #f1f5f9; }
+    th, td { padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid #e5e7eb; }
+    tbody tr:last-child td { border-bottom: none; }
+    tbody tr:hover { background: #f8fafc; }
+
+    /* Getting started */
+    .steps { display: flex; flex-direction: column; gap: 1rem; }
+    .step { display: flex; gap: 1rem; align-items: flex-start; }
+    .step-num {
+      flex-shrink: 0;
+      width: 2rem; height: 2rem;
+      border-radius: 50%;
+      background: #1d4ed8;
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.9rem;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .step-body { flex: 1; }
+    .step-body p { margin-bottom: 0.5rem; font-size: 0.9rem; }
+
+    /* Citation */
+    .citation-block {
+      position: relative;
+      background: #1e293b;
+      color: #e2e8f0;
+      border-radius: 8px;
+      padding: 1rem 1.2rem;
+      font-family: "SFMono-Regular", Consolas, monospace;
+      font-size: 0.8rem;
+      line-height: 1.7;
+      overflow-x: auto;
+    }
+    .copy-btn {
+      position: absolute;
+      top: 0.6rem; right: 0.6rem;
+      background: #334155;
+      color: #cbd5e1;
+      border: none;
+      border-radius: 5px;
+      padding: 0.3rem 0.6rem;
+      font-size: 0.75rem;
+      cursor: pointer;
+    }
+    .copy-btn:hover { background: #475569; }
+
+    /* Footer */
+    footer {
+      background: #1e293b;
+      color: #94a3b8;
+      text-align: center;
+      padding: 1.5rem;
+      font-size: 0.85rem;
+    }
+    footer a { color: #93c5fd; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <img src="images/gc-icon.png" alt="GitChameleon 2.0 icon">
+    <h1>GitChameleon 2.0</h1>
+    <div class="venue-badge">ACL 2026 &mdash; Main Conference</div>
+    <p class="authors">
+      Diganta Misra &middot; Nizar Islah &middot; Victor May &middot; Brice Rauby &middot; Zihan Wang<br>
+      Justine Gehring &middot; Antonio Orvieto &middot; Muawiz Chaudhary &middot; Eilif B. Muller<br>
+      Irina Rish &middot; Samira Ebrahimi Kahou &middot; Massimo Caccia
+    </p>
+    <div class="btn-row">
+      <a class="btn btn-primary" href="https://arxiv.org/abs/2507.12367" target="_blank">&#128196; Paper</a>
+      <a class="btn btn-outline" href="https://huggingface.co/datasets/cabbage972/GitChameleon-2.0" target="_blank">&#129303; Dataset</a>
+      <a class="btn btn-outline" href="https://github.com/mrcabbage972/GitChameleonBenchmark" target="_blank">&#128196; GitHub</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+
+    <section id="abstract">
+      <h2>Abstract</h2>
+      <p>
+        GitChameleon 2.0 is an AI coding benchmark comprising <strong>328 Python-based problems</strong>
+        conditioned on specific versions of popular libraries for scientific computing and web development.
+        It evaluates whether AI code generation models can correctly use library APIs <em>as they existed
+        at a particular version</em> — a challenging test of version-specific knowledge that existing
+        benchmarks largely ignore.
+      </p>
+      <p>
+        Unlike prior code benchmarks, GitChameleon 2.0 uses <strong>execution-based evaluation</strong>:
+        each problem is validated against unit tests that run in a pinned environment. Our evaluation of
+        large language models, LLM-powered agents, code assistants, and RAG systems reveals that even
+        the best enterprise models achieve only 48–51% success, highlighting a significant gap in
+        practical library-version awareness.
+      </p>
+    </section>
+
+    <section id="stats">
+      <h2>Benchmark at a Glance</h2>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="number">328</div>
+          <div class="label">Problems</div>
+        </div>
+        <div class="stat-card">
+          <div class="number">26</div>
+          <div class="label">Python Libraries</div>
+        </div>
+        <div class="stat-card">
+          <div class="number">3</div>
+          <div class="label">Python Versions</div>
+        </div>
+        <div class="stat-card">
+          <div class="number">~50%</div>
+          <div class="label">Top Model Score</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="example">
+      <h2>Example Task</h2>
+      <div class="task-box">
+        <div class="task-meta">
+          <span class="tag">torch==1.9.0</span>
+          <span class="tag">Python 3.7</span>
+          <span class="tag">other library</span>
+        </div>
+        <p class="problem">
+          "Calculate the logarithm of the cumulative distribution function of the standard normal
+          distribution using available functions. If not available in PyTorch, use another library."
+        </p>
+        <pre><code>import torch
+
+def log_ndtr(input_tensor: torch.Tensor) -> torch.Tensor:
+    # your solution here
+    ...</code></pre>
+        <p style="font-size:0.85rem;color:#6b7280;margin-bottom:0.5rem;">Must pass the visible test:</p>
+        <pre><code>from scipy.stats import norm
+input_tensor = torch.linspace(-10, 10, steps=20)
+expected = torch.tensor([-5.3231e+01, ..., -7.6199e-24], dtype=torch.float64)
+assert torch.allclose(log_ndtr(input_tensor), expected, rtol=1e-3, atol=1e-3)</code></pre>
+        <div class="task-note">
+          <strong>Why it's hard:</strong> <code>torch.special.log_ndtr</code> was not added until
+          PyTorch 1.11. A model that ignores the pinned version will call a non-existent function.
+          The correct solution falls back to <code>scipy.stats.norm.logcdf</code>.
+        </div>
+      </div>
+    </section>
+
+    <section id="results">
+      <h2>Results</h2>
+      <p>We evaluated a broad set of AI systems under execution-based evaluation with pinned library environments.</p>
+      <table>
+        <thead>
+          <tr><th>System Type</th><th>Success Rate</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Enterprise LLMs (best)</td><td>48–51%</td></tr>
+          <tr><td>LLM-powered agents</td><td>&lt; enterprise LLMs</td></tr>
+          <tr><td>Code assistants</td><td>&lt; enterprise LLMs</td></tr>
+          <tr><td>RAG systems</td><td>&lt; enterprise LLMs</td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:0.85rem;color:#6b7280;margin-top:0.75rem;">
+        Full results in the <a href="https://arxiv.org/abs/2507.12367">paper</a>.
+      </p>
+    </section>
+
+    <section id="start">
+      <h2>Getting Started</h2>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <p><strong>Clone and set up the harness</strong> (requires Python 3.9+, Poetry, Docker)</p>
+            <pre><code>git clone https://github.com/mrcabbage972/GitChameleonBenchmark.git
+cd GitChameleonBenchmark
+make evals-setup</code></pre>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <p><strong>Generate solutions</strong> — produce a JSONL file with <code>example_id</code> and <code>answer</code> fields for each of the 328 problems.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <p><strong>Run evaluation</strong></p>
+            <pre><code>evaluate --solution-path YOUR_SOLUTIONS.jsonl [--workers N]</code></pre>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <p><strong>Or load the dataset directly from Hugging Face</strong></p>
+            <pre><code>from datasets import load_dataset
+ds = load_dataset("cabbage972/GitChameleon-2.0", "problems")</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="citation">
+      <h2>Citation</h2>
+      <div class="citation-block" id="bibtex">
+        <button class="copy-btn" onclick="copyBibtex()">Copy</button>
+@misc{misra2025gitchameleon20evaluatingai,
+  title={GitChameleon 2.0: Evaluating AI Code Generation Against
+         Python Library Version Incompatibilities},
+  author={Diganta Misra and Nizar Islah and Victor May and Brice Rauby
+          and Zihan Wang and Justine Gehring and Antonio Orvieto
+          and Muawiz Chaudhary and Eilif B. Muller and Irina Rish
+          and Samira Ebrahimi Kahou and Massimo Caccia},
+  year={2025},
+  eprint={2507.12367},
+  archivePrefix={arXiv},
+  primaryClass={cs.SE},
+  url={https://arxiv.org/abs/2507.12367}
+}</div>
+    </section>
+
+  </div>
+</main>
+
+<footer>
+  <p>GitChameleon 2.0 &mdash; ACL 2026 &middot;
+    <a href="https://arxiv.org/abs/2507.12367">Paper</a> &middot;
+    <a href="https://huggingface.co/datasets/cabbage972/GitChameleon-2.0">Dataset</a> &middot;
+    <a href="https://github.com/mrcabbage972/GitChameleonBenchmark">GitHub</a>
+  </p>
+</footer>
+
+<script>
+function copyBibtex() {
+  const el = document.getElementById('bibtex');
+  const text = el.innerText.replace('Copy\n', '');
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = el.querySelector('.copy-btn');
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy', 2000);
+  });
+}
+</script>
+
+</body>
+</html>
