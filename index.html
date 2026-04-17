@@ -3,7 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GitChameleon 2.0</title>
+  <title>GitChameleon 2.0 | Version-Aware Code Generation Benchmark</title>
+  <meta name="description" content="GitChameleon 2.0 is the current benchmark for version-aware Python code generation. 328 problems, 26 libraries, execution-based evaluation. ACL 2026 Main.">
+  <link rel="canonical" href="https://gitchameleon-2-0.github.io/">
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://gitchameleon-2-0.github.io/">
+  <meta property="og:title" content="GitChameleon 2.0 | Version-Aware Code Generation Benchmark">
+  <meta property="og:description" content="328 problems · 26 libraries · execution-based evaluation · ACL 2026 Main. The current benchmark for version-aware Python code generation.">
+  <meta property="og:image" content="https://gitchameleon-2-0.github.io/images/gc-icon.png">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="GitChameleon 2.0">
+  <meta name="twitter:description" content="The current benchmark for version-aware Python code generation. 328 problems, 26 libraries, ACL 2026.">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -19,6 +30,38 @@
 
     .container { max-width: 900px; margin: 0 auto; padding: 0 1.5rem; }
 
+    /* Sticky nav */
+    .site-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(6px);
+      border-bottom: 1px solid #e5e7eb;
+      padding: 0;
+    }
+    .site-nav ul {
+      display: flex;
+      gap: 0;
+      list-style: none;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .site-nav ul::-webkit-scrollbar { display: none; }
+    .site-nav li a {
+      display: block;
+      padding: 0.7rem 0.9rem;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: #6b7280;
+      white-space: nowrap;
+      border-bottom: 2px solid transparent;
+    }
+    .site-nav li a:hover { color: #1d4ed8; text-decoration: none; border-bottom-color: #1d4ed8; }
+
     /* Header */
     header {
       background: #fff;
@@ -27,8 +70,9 @@
       text-align: center;
     }
     header img { width: 90px; margin-bottom: 1rem; }
-    header h1 { font-size: 2.4rem; font-weight: 700; margin-bottom: 0.3rem; }
-    header h2 { font-size: 1.05rem; font-weight: 400; color: #6b7280; margin-bottom: 0.8rem; }
+    header h1 { font-size: 2.4rem; font-weight: 700; margin-bottom: 0.35rem; }
+    .tagline { font-size: 1.05rem; color: #374151; font-weight: 500; margin-bottom: 0.4rem; }
+    .subline { font-size: 0.88rem; color: #6b7280; margin-bottom: 1rem; }
     .venue-badge {
       display: inline-block;
       background: #1d4ed8;
@@ -38,8 +82,22 @@
       letter-spacing: 0.05em;
       padding: 0.25rem 0.75rem;
       border-radius: 999px;
-      margin-bottom: 1.2rem;
+      margin-bottom: 1rem;
     }
+    /* Positioning banner */
+    .positioning-banner {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-radius: 8px;
+      padding: 0.75rem 1.1rem;
+      font-size: 0.88rem;
+      color: #1e40af;
+      margin: 1rem auto 1.4rem;
+      max-width: 680px;
+      text-align: left;
+      line-height: 1.55;
+    }
+    .positioning-banner strong { color: #1d4ed8; }
     .authors {
       font-size: 0.95rem;
       color: #4b5563;
@@ -67,7 +125,6 @@
 
     /* Main */
     main { padding: 3rem 0; }
-
     section { margin-bottom: 3rem; }
     section h2 {
       font-size: 1.4rem;
@@ -78,10 +135,73 @@
     }
     p { margin-bottom: 0.8rem; }
 
+    /* Version compare */
+    .version-compare {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-top: 0.5rem;
+    }
+    @media (max-width: 560px) { .version-compare { grid-template-columns: 1fr; } }
+    .version-card {
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      padding: 1.1rem 1.2rem;
+      background: #fff;
+    }
+    .version-card.current {
+      border-color: #1d4ed8;
+      background: #eff6ff;
+    }
+    .version-card .v-title {
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 0.3rem;
+    }
+    .version-card.current .v-title { color: #1d4ed8; }
+    .version-card .v-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #9ca3af;
+      margin-bottom: 0.5rem;
+    }
+    .version-card.current .v-label { color: #1d4ed8; }
+    .version-card ul { list-style: none; font-size: 0.85rem; color: #4b5563; }
+    .version-card ul li { padding: 0.15rem 0; }
+    .version-card ul li::before { content: "· "; color: #9ca3af; }
+    .version-card.current ul li::before { color: #1d4ed8; }
+
+    /* Overview cards */
+    .overview-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-top: 0.5rem;
+    }
+    @media (max-width: 620px) { .overview-grid { grid-template-columns: 1fr; } }
+    .overview-card {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      padding: 1.2rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    }
+    .overview-card .oc-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #1d4ed8;
+      margin-bottom: 0.4rem;
+    }
+    .overview-card p { font-size: 0.9rem; color: #374151; margin: 0; }
+
     /* Stats */
     .stats-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
       gap: 1rem;
       margin-top: 1.2rem;
     }
@@ -104,12 +224,7 @@
       padding: 1.5rem;
       box-shadow: 0 1px 3px rgba(0,0,0,0.05);
     }
-    .task-meta {
-      display: flex;
-      gap: 0.5rem;
-      flex-wrap: wrap;
-      margin-bottom: 0.8rem;
-    }
+    .task-meta { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.8rem; }
     .tag {
       font-size: 0.75rem;
       font-weight: 600;
@@ -119,11 +234,7 @@
       color: #1d4ed8;
       border: 1px solid #bfdbfe;
     }
-    .task-box .problem {
-      font-style: italic;
-      color: #374151;
-      margin-bottom: 1rem;
-    }
+    .task-box .problem { font-style: italic; color: #374151; margin-bottom: 1rem; }
     pre {
       background: #1e293b;
       color: #e2e8f0;
@@ -144,8 +255,27 @@
       border-radius: 0 6px 6px 0;
     }
 
+    /* Results headlines */
+    .result-headlines {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    @media (max-width: 580px) { .result-headlines { grid-template-columns: 1fr; } }
+    .rh-card {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      padding: 1rem 1.1rem;
+      text-align: center;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    }
+    .rh-card .rh-num { font-size: 1.8rem; font-weight: 700; color: #1d4ed8; }
+    .rh-card .rh-label { font-size: 0.8rem; color: #6b7280; margin-top: 0.15rem; line-height: 1.4; }
+
     /* Tabs */
-    .tabs { display: flex; gap: 0; border-bottom: 2px solid #e5e7eb; margin-bottom: 1.2rem; }
+    .tabs { display: flex; border-bottom: 2px solid #e5e7eb; margin-bottom: 1.2rem; }
     .tab-btn {
       padding: 0.55rem 1.1rem;
       font-size: 0.88rem;
@@ -172,7 +302,7 @@
     .rank { display: inline-block; width: 1.4rem; text-align: right; font-size: 0.8rem; color: #9ca3af; font-variant-numeric: tabular-nums; flex-shrink: 0; }
     .setup-note { font-size: 0.88rem; color: #4b5563; background: #f8fafc; border: 1px solid #e5e7eb; border-radius: 8px; padding: 0.75rem 1rem; margin-bottom: 1rem; }
 
-    /* Results */
+    /* Results table */
     table {
       width: 100%;
       border-collapse: collapse;
@@ -187,23 +317,30 @@
     tbody tr:last-child td { border-bottom: none; }
     tbody tr:hover { background: #f8fafc; }
 
-    /* Getting started */
-    .steps { display: flex; flex-direction: column; gap: 1rem; }
-    .step { display: flex; gap: 1rem; align-items: flex-start; }
-    .step-num {
-      flex-shrink: 0;
-      width: 2rem; height: 2rem;
-      border-radius: 50%;
-      background: #1d4ed8;
-      color: #fff;
-      font-weight: 700;
-      font-size: 0.9rem;
-      display: flex; align-items: center; justify-content: center;
+    /* Getting started - two cards */
+    .start-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.2rem;
     }
-    .step-body { flex: 1; }
-    .step-body p { margin-bottom: 0.5rem; font-size: 0.9rem; }
+    @media (max-width: 600px) { .start-cards { grid-template-columns: 1fr; } }
+    .start-card {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      padding: 1.3rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    .start-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.4rem; }
+    .start-card .sc-desc { font-size: 0.85rem; color: #6b7280; margin-bottom: 0.8rem; }
+    .start-card pre { margin-bottom: 0; }
+
+    /* Abstract (kept for completeness) */
+    .abstract-text { font-size: 0.95rem; color: #374151; }
 
     /* Citation */
+    .citation-label { font-size: 0.85rem; color: #6b7280; margin-bottom: 0.6rem; }
+    .citation-label strong { color: #212529; }
     .citation-block {
       position: relative;
       background: #1e293b;
@@ -227,6 +364,38 @@
       cursor: pointer;
     }
     .copy-btn:hover { background: #475569; }
+    .citation-note { font-size: 0.82rem; color: #9ca3af; margin-top: 0.6rem; }
+
+    /* FAQ */
+    .faq { display: flex; flex-direction: column; gap: 0; border: 1px solid #e5e7eb; border-radius: 10px; overflow: hidden; background: #fff; }
+    .faq-item { border-bottom: 1px solid #e5e7eb; }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-q {
+      width: 100%;
+      text-align: left;
+      background: none;
+      border: none;
+      padding: 1rem 1.2rem;
+      font-size: 0.92rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      color: #212529;
+    }
+    .faq-q:hover { background: #f8fafc; }
+    .faq-q .chevron { flex-shrink: 0; transition: transform 0.2s; font-size: 0.75rem; color: #9ca3af; }
+    .faq-item.open .faq-q .chevron { transform: rotate(180deg); }
+    .faq-a {
+      display: none;
+      padding: 0 1.2rem 1rem;
+      font-size: 0.88rem;
+      color: #4b5563;
+      line-height: 1.6;
+    }
+    .faq-item.open .faq-a { display: block; }
 
     /* Footer */
     footer {
@@ -237,16 +406,39 @@
       font-size: 0.85rem;
     }
     footer a { color: #93c5fd; }
+    footer .footer-links { margin-top: 0.4rem; font-size: 0.8rem; }
   </style>
 </head>
 <body>
+
+<!-- Sticky nav -->
+<nav class="site-nav" aria-label="Page sections">
+  <ul>
+    <li><a href="#overview">Overview</a></li>
+    <li><a href="#stats">At a Glance</a></li>
+    <li><a href="#example">Example</a></li>
+    <li><a href="#results">Results</a></li>
+    <li><a href="#start">Get Started</a></li>
+    <li><a href="#citation">Cite</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ul>
+</nav>
 
 <header>
   <div class="container">
     <img src="images/gc-icon.png" alt="GitChameleon 2.0 icon">
     <h1>GitChameleon 2.0</h1>
-    <h2>Evaluating AI Code Generation Against Python Library Version Incompatibilities</h2>
+    <p class="tagline">The current benchmark for version-aware Python code generation</p>
+    <p class="subline">328 problems &middot; 26 libraries &middot; execution-based evaluation &middot; ACL 2026 Main</p>
     <div class="venue-badge">ACL 2026 &mdash; Main Conference</div>
+
+    <div class="positioning-banner">
+      <strong>GitChameleon 2.0</strong> is the current expanded benchmark release. It builds on the earlier
+      GitChameleon benchmark, which introduced the predecessor 116-problem release.
+      <strong>For new benchmark use, please cite GitChameleon 2.0 (ACL 2026).</strong>
+      &rarr; <a href="#citation">Jump to citation</a>
+    </div>
+
     <p class="authors">
       <a href="https://digantamisra98.github.io/" target="_blank">Diganta Misra</a> &middot;
       <a href="https://nizarislah.github.io/" target="_blank">Nizar Islah</a> &middot;
@@ -264,8 +456,8 @@
     <div class="btn-row">
       <a class="btn btn-primary" href="https://arxiv.org/abs/2507.12367" target="_blank">&#128196; Paper</a>
       <a class="btn btn-outline" href="https://huggingface.co/datasets/cabbage972/GitChameleon-2.0" target="_blank">&#129303; Dataset</a>
-      <a class="btn btn-outline" href="https://github.com/mrcabbage972/GitChameleonBenchmark" target="_blank">&#128196; GitHub</a>
-      <a class="btn btn-outline" href="https://scholar.google.com/scholar_lookup?arxiv_id=2507.12367" target="_blank">&#127891; Google Scholar</a>
+      <a class="btn btn-outline" href="https://github.com/mrcabbage972/GitChameleonBenchmark" target="_blank">&#9881;&#65039; Official Eval Harness</a>
+      <a class="btn btn-outline" href="#citation">&#128203; Cite</a>
     </div>
   </div>
 </header>
@@ -273,24 +465,51 @@
 <main>
   <div class="container">
 
-    <section id="abstract">
-      <h2>Abstract</h2>
-      <p>
-        GitChameleon 2.0 is an AI coding benchmark comprising <strong>328 Python-based problems</strong>
-        conditioned on specific versions of popular libraries for scientific computing and web development.
-        It evaluates whether AI code generation models can correctly use library APIs <em>as they existed
-        at a particular version</em> — a challenging test of version-specific knowledge that existing
-        benchmarks largely ignore.
-      </p>
-      <p>
-        Unlike prior code benchmarks, GitChameleon 2.0 uses <strong>execution-based evaluation</strong>:
-        each problem is validated against unit tests that run in a pinned environment. Our evaluation of
-        large language models, LLM-powered agents, code assistants, and RAG systems reveals that even
-        the best enterprise models achieve only 48–51% success, highlighting a significant gap in
-        practical library-version awareness.
-      </p>
+    <!-- Overview cards -->
+    <section id="overview">
+      <h2>Overview</h2>
+      <div class="overview-grid">
+        <div class="overview-card">
+          <div class="oc-label">What it measures</div>
+          <p>Can AI models generate correct Python code for a <em>specific pinned library version</em> — not just the latest API?</p>
+        </div>
+        <div class="overview-card">
+          <div class="oc-label">Why it matters</div>
+          <p>Real codebases are stuck on specific versions due to technical debt, deployment constraints, and compatibility risk. Models trained on the latest docs fail silently on older APIs.</p>
+        </div>
+        <div class="overview-card">
+          <div class="oc-label">What&rsquo;s new in 2.0</div>
+          <p>328 problems across 26 libraries (vs. 116 in v1), execution-based evaluation with visible + hidden tests, and systematic results across LLMs, agents, coding assistants, and RAG.</p>
+        </div>
+      </div>
+
+      <!-- v1 vs v2 comparison -->
+      <div style="margin-top: 1.5rem;">
+        <div class="version-compare">
+          <div class="version-card">
+            <div class="v-label">Predecessor</div>
+            <div class="v-title">GitChameleon (2024)</div>
+            <ul>
+              <li>116 problems</li>
+              <li>Introduced the version-aware benchmark format</li>
+              <li>Narrower library and evaluation scope</li>
+            </ul>
+          </div>
+          <div class="version-card current">
+            <div class="v-label">Current release &mdash; cite this</div>
+            <div class="v-title">GitChameleon 2.0 (ACL 2026)</div>
+            <ul>
+              <li>328 problems across 26 libraries</li>
+              <li>Visible + hidden test sets</li>
+              <li>LLMs, agents, coding assistants, and RAG evaluation</li>
+              <li>3 Python versions (3.7, 3.9, 3.10)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </section>
 
+    <!-- Stats -->
     <section id="stats">
       <h2>Benchmark at a Glance</h2>
       <div class="stats-grid">
@@ -308,11 +527,16 @@
         </div>
         <div class="stat-card">
           <div class="number">~50%</div>
-          <div class="label">Top Model Score</div>
+          <div class="label">Best Greedy Score</div>
+        </div>
+        <div class="stat-card">
+          <div class="number">~59%</div>
+          <div class="label">Best RAG Score</div>
         </div>
       </div>
     </section>
 
+    <!-- Example task -->
     <section id="example">
       <h2>Example Task</h2>
       <div class="task-box">
@@ -343,9 +567,27 @@ assert torch.allclose(log_ndtr(input_tensor), expected, rtol=1e-3, atol=1e-3)</c
       </div>
     </section>
 
+    <!-- Results -->
     <section id="results">
       <h2>Results</h2>
-      <p>Hidden test success rates across four evaluation paradigms. Even the strongest models leave substantial room for improvement.</p>
+
+      <!-- Headline takeaways -->
+      <div class="result-headlines">
+        <div class="rh-card">
+          <div class="rh-num">51.2%</div>
+          <div class="rh-label">Best greedy LLM<br><span style="color:#9ca3af">o1, single pass</span></div>
+        </div>
+        <div class="rh-card">
+          <div class="rh-num">55.5%</div>
+          <div class="rh-label">Best agent / coding assistant<br><span style="color:#9ca3af">Goose CLI (GPT-4.1)</span></div>
+        </div>
+        <div class="rh-card">
+          <div class="rh-num">59.4%</div>
+          <div class="rh-label">Best retrieval-grounded<br><span style="color:#9ca3af">Claude 4 Sonnet + RAG</span></div>
+        </div>
+      </div>
+
+      <p style="font-size:0.88rem;color:#4b5563;margin-bottom:1.2rem;">Detailed results by evaluation paradigm — hidden test success rates:</p>
 
       <div class="tabs" role="tablist">
         <button class="tab-btn active" role="tab" onclick="switchTab(event,'tab-llm')">LLMs</button>
@@ -418,44 +660,38 @@ assert torch.allclose(log_ndtr(input_tensor), expected, rtol=1e-3, atol=1e-3)</c
       </div>
     </section>
 
+    <!-- Getting Started — two cards -->
     <section id="start">
-      <h2>Getting Started</h2>
-      <div class="steps">
-        <div class="step">
-          <div class="step-num">1</div>
-          <div class="step-body">
-            <p><strong>Clone and set up the harness</strong> (requires Python 3.9+, Poetry, Docker)</p>
-            <pre><code>git clone https://github.com/mrcabbage972/GitChameleonBenchmark.git
+      <h2>Get Started</h2>
+      <div class="start-cards">
+        <div class="start-card">
+          <h3>&#129303; Use the dataset</h3>
+          <p class="sc-desc">Browse problems, inspect solutions, or build downstream applications using the Hugging Face dataset.</p>
+          <pre><code>from datasets import load_dataset
+
+ds = load_dataset(
+  "cabbage972/GitChameleon-2.0",
+  "problems"
+)</code></pre>
+        </div>
+        <div class="start-card">
+          <h3>&#9881;&#65039; Run official evaluation</h3>
+          <p class="sc-desc">Reproduce paper-faithful results using the official harness. Requires Python 3.9+, Poetry, and Docker.</p>
+          <pre><code>git clone https://github.com/mrcabbage972/\
+  GitChameleonBenchmark.git
 cd GitChameleonBenchmark
-make evals-setup</code></pre>
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-num">2</div>
-          <div class="step-body">
-            <p><strong>Generate solutions</strong> — produce a JSONL file with <code>example_id</code> and <code>answer</code> fields for each of the 328 problems.</p>
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-num">3</div>
-          <div class="step-body">
-            <p><strong>Run evaluation</strong></p>
-            <pre><code>evaluate --solution-path YOUR_SOLUTIONS.jsonl [--workers N]</code></pre>
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-num">4</div>
-          <div class="step-body">
-            <p><strong>Or load the dataset directly from Hugging Face</strong></p>
-            <pre><code>from datasets import load_dataset
-ds = load_dataset("cabbage972/GitChameleon-2.0", "problems")</code></pre>
-          </div>
+make evals-setup
+evaluate \
+  --solution-path YOUR_SOLUTIONS.jsonl</code></pre>
         </div>
       </div>
+      <p style="font-size:0.83rem;color:#9ca3af;margin-top:0.8rem;">Your solution file should be a JSONL with <code>example_id</code> and <code>answer</code> fields for each of the 328 problems.</p>
     </section>
 
+    <!-- Citation -->
     <section id="citation">
       <h2>Citation</h2>
+      <p class="citation-label"><strong>Recommended citation for benchmark use</strong> &mdash; please use this entry when referencing GitChameleon 2.0 in your work.</p>
       <div class="citation-block" id="bibtex">
         <button class="copy-btn" onclick="copyBibtex()">Copy</button>
 @misc{misra2025gitchameleon20evaluatingai,
@@ -471,16 +707,92 @@ ds = load_dataset("cabbage972/GitChameleon-2.0", "problems")</code></pre>
   primaryClass={cs.SE},
   url={https://arxiv.org/abs/2507.12367}
 }</div>
+      <p class="citation-note">Cite the earlier GitChameleon paper only when specifically referring to the original 116-problem release.</p>
+    </section>
+
+    <!-- Abstract (for completeness) -->
+    <section id="abstract">
+      <h2>Abstract</h2>
+      <div class="abstract-text">
+        <p>
+          GitChameleon 2.0 is an AI coding benchmark comprising <strong>328 Python-based problems</strong>
+          conditioned on specific versions of popular libraries for scientific computing and web development.
+          It evaluates whether AI code generation models can correctly use library APIs <em>as they existed
+          at a particular version</em> — a challenging test of version-specific knowledge that existing
+          benchmarks largely ignore.
+        </p>
+        <p>
+          Unlike prior code benchmarks, GitChameleon 2.0 uses <strong>execution-based evaluation</strong>:
+          each problem is validated against unit tests that run in a pinned environment. Our evaluation of
+          large language models, LLM-powered agents, code assistants, and RAG systems reveals that even
+          the best enterprise models achieve only 48–51% success under greedy decoding, and up to 59%
+          with retrieval augmentation, highlighting a significant gap in practical library-version awareness.
+        </p>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq">
+      <h2>FAQ</h2>
+      <div class="faq">
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            What is the relationship between GitChameleon and GitChameleon 2.0?
+            <span class="chevron">&#9660;</span>
+          </button>
+          <div class="faq-a">
+            GitChameleon 2.0 is the current expanded benchmark release, built on the earlier GitChameleon benchmark.
+            The original GitChameleon (2024) introduced the version-aware format with 116 problems.
+            GitChameleon 2.0 expands this to 328 problems across 26 libraries and adds systematic evaluation
+            across LLMs, agents, coding assistants, and RAG — making it the primary reference for new work.
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            Which paper should I cite?
+            <span class="chevron">&#9660;</span>
+          </button>
+          <div class="faq-a">
+            For new benchmark use, cite <strong>GitChameleon 2.0 (ACL 2026)</strong> using the BibTeX above.
+            Cite the earlier GitChameleon paper only when specifically referring to the original 116-problem release.
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            Can I use the dataset without the eval harness?
+            <span class="chevron">&#9660;</span>
+          </button>
+          <div class="faq-a">
+            Yes — the dataset is freely available on Hugging Face and suitable for inspection,
+            downstream analysis, and building custom evaluation pipelines. Use the
+            <a href="https://github.com/mrcabbage972/GitChameleonBenchmark" target="_blank">official harness</a>
+            only when you need paper-faithful evaluation with pinned Docker environments.
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            Where do I reproduce the official results?
+            <span class="chevron">&#9660;</span>
+          </button>
+          <div class="faq-a">
+            All official evaluation runs use the
+            <a href="https://github.com/mrcabbage972/GitChameleonBenchmark" target="_blank">GitChameleonBenchmark</a>
+            repository. Docker-based pinned environments ensure reproducibility across different machines.
+          </div>
+        </div>
+      </div>
     </section>
 
   </div>
 </main>
 
 <footer>
-  <p>GitChameleon 2.0 &mdash; ACL 2026 &middot;
+  <p>GitChameleon 2.0 &mdash; ACL 2026</p>
+  <p class="footer-links">
     <a href="https://arxiv.org/abs/2507.12367">Paper</a> &middot;
     <a href="https://huggingface.co/datasets/cabbage972/GitChameleon-2.0">Dataset</a> &middot;
-    <a href="https://github.com/mrcabbage972/GitChameleonBenchmark">GitHub</a>
+    <a href="https://github.com/mrcabbage972/GitChameleonBenchmark">GitHub</a> &middot;
+    <a href="https://scholar.google.com/scholar_lookup?arxiv_id=2507.12367">Google Scholar</a>
   </p>
 </footer>
 
@@ -490,6 +802,10 @@ function switchTab(e, id) {
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
   e.currentTarget.classList.add('active');
   document.getElementById(id).classList.add('active');
+}
+
+function toggleFaq(btn) {
+  btn.parentElement.classList.toggle('open');
 }
 
 function copyBibtex() {
