@@ -166,6 +166,7 @@
     .divider-row td { border-top: 2px solid #e5e7eb; font-size: 0.75rem; color: #9ca3af; padding-top: 0.6rem; font-style: italic; }
     .model-cell { display: flex; align-items: center; gap: 8px; }
     .model-icon { width: 18px; height: 18px; flex-shrink: 0; border-radius: 3px; }
+    .rank { display: inline-block; width: 1.4rem; text-align: right; font-size: 0.8rem; color: #9ca3af; font-variant-numeric: tabular-nums; flex-shrink: 0; }
 
     /* Results */
     table {
@@ -350,19 +351,19 @@ assert torch.allclose(log_ndtr(input_tensor), expected, rtol=1e-3, atol=1e-3)</c
 
       <div id="tab-llm" class="tab-panel active">
         <table>
-          <thead><tr><th>Model</th><th>Success Rate</th></tr></thead>
+          <thead><tr><th style="width:2rem">#</th><th>Model</th><th>Success Rate</th></tr></thead>
           <tbody>
-            <tr><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/openai" alt="OpenAI">o1</div></td><td>51.2%</td></tr>
-            <tr><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/google" alt="Google">Gemini 2.5 Pro</div></td><td>50.0%</td></tr>
-            <tr><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/openai" alt="OpenAI">GPT-4o</div></td><td>49.1%</td></tr>
-            <tr><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/anthropic" alt="Anthropic">Claude 3.7 Sonnet</div></td><td>48.8%</td></tr>
-            <tr><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/openai" alt="OpenAI">GPT-4.1</div></td><td>48.5%</td></tr>
-            <tr><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/x" alt="xAI">Grok 3</div></td><td>48.2%</td></tr>
-            <tr class="divider-row"><td colspan="2">Open-weights models</td></tr>
-            <tr><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/alibabacloud" alt="Alibaba">Qwen 2.5-VL Instruct 72B</div></td><td>48.2%</td></tr>
-            <tr><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/meta" alt="Meta">Llama 4 Maverick 400B</div></td><td>40.8%</td></tr>
-            <tr><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/meta" alt="Meta">Llama 3.3 Instruct Turbo 70B</div></td><td>36.3%</td></tr>
-            <tr><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/meta" alt="Meta">Llama 3.1 Instruct Turbo</div></td><td>30.2%</td></tr>
+            <tr><td><span class="rank">1</span></td><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/openai" alt="OpenAI">o1</div></td><td>51.2%</td></tr>
+            <tr><td><span class="rank">2</span></td><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/google" alt="Google">Gemini 2.5 Pro</div></td><td>50.0%</td></tr>
+            <tr><td><span class="rank">3</span></td><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/openai" alt="OpenAI">GPT-4o</div></td><td>49.1%</td></tr>
+            <tr><td><span class="rank">4</span></td><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/anthropic" alt="Anthropic">Claude 3.7 Sonnet</div></td><td>48.8%</td></tr>
+            <tr><td><span class="rank">5</span></td><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/openai" alt="OpenAI">GPT-4.1</div></td><td>48.5%</td></tr>
+            <tr><td><span class="rank">6</span></td><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/x" alt="xAI">Grok 3</div></td><td>48.2%</td></tr>
+            <tr class="divider-row"><td></td><td colspan="2">Open-weights models</td></tr>
+            <tr><td><span class="rank">7</span></td><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/alibabacloud" alt="Alibaba">Qwen 2.5-VL Instruct 72B</div></td><td>48.2%</td></tr>
+            <tr><td><span class="rank">8</span></td><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/meta" alt="Meta">Llama 4 Maverick 400B</div></td><td>40.8%</td></tr>
+            <tr><td><span class="rank">9</span></td><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/meta" alt="Meta">Llama 3.3 Instruct Turbo 70B</div></td><td>36.3%</td></tr>
+            <tr><td><span class="rank">10</span></td><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/meta" alt="Meta">Llama 3.1 Instruct Turbo</div></td><td>30.2%</td></tr>
           </tbody>
         </table>
         <p class="table-note">Greedy decoding. Self-debugging improves all models by ~10–20 pp — see the <a href="https://arxiv.org/abs/2507.12367">paper</a> for full results.</p>
@@ -370,12 +371,12 @@ assert torch.allclose(log_ndtr(input_tensor), expected, rtol=1e-3, atol=1e-3)</c
 
       <div id="tab-agents" class="tab-panel">
         <table>
-          <thead><tr><th>Model + Search Tool</th><th>Success Rate</th></tr></thead>
+          <thead><tr><th style="width:2rem">#</th><th>Model + Search Tool</th><th>Success Rate</th></tr></thead>
           <tbody>
-            <tr><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/anthropic" alt="Anthropic">Claude Sonnet 3.5 + DuckDuckGo</div></td><td>55.3%</td></tr>
-            <tr><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/anthropic" alt="Anthropic">Claude Sonnet 3.5 + Perplexity</div></td><td>51.4%</td></tr>
-            <tr><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/google" alt="Google">Gemini 1.5 Pro + Perplexity</div></td><td>46.5%</td></tr>
-            <tr><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/google" alt="Google">Gemini 1.5 Pro + DuckDuckGo</div></td><td>46.0%</td></tr>
+            <tr><td><span class="rank">1</span></td><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/anthropic" alt="Anthropic">Claude Sonnet 3.5 + DuckDuckGo</div></td><td>55.3%</td></tr>
+            <tr><td><span class="rank">2</span></td><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/anthropic" alt="Anthropic">Claude Sonnet 3.5 + Perplexity</div></td><td>51.4%</td></tr>
+            <tr><td><span class="rank">3</span></td><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/google" alt="Google">Gemini 1.5 Pro + Perplexity</div></td><td>46.5%</td></tr>
+            <tr><td><span class="rank">4</span></td><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/google" alt="Google">Gemini 1.5 Pro + DuckDuckGo</div></td><td>46.0%</td></tr>
           </tbody>
         </table>
         <p class="table-note">Multi-step agent setup with sandbox execution. See the <a href="https://arxiv.org/abs/2507.12367">paper</a> for full results.</p>
@@ -383,12 +384,12 @@ assert torch.allclose(log_ndtr(input_tensor), expected, rtol=1e-3, atol=1e-3)</c
 
       <div id="tab-assistants" class="tab-panel">
         <table>
-          <thead><tr><th>Tool (Model)</th><th>Success Rate</th></tr></thead>
+          <thead><tr><th style="width:2rem">#</th><th>Tool (Model)</th><th>Success Rate</th></tr></thead>
           <tbody>
-            <tr><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/openai" alt="OpenAI">Goose — CLI (GPT-4.1)</div></td><td>55.5%</td></tr>
-            <tr><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/openai" alt="OpenAI">Cline — IDE (GPT-4.1)</div></td><td>54.6%</td></tr>
-            <tr><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/openai" alt="OpenAI">Cline — IDE (GPT-4.1-nano)</div></td><td>54.6%</td></tr>
-            <tr><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/anthropic" alt="Anthropic">Claude Code — CLI (Claude 3.7 Sonnet)</div></td><td>48.8%</td></tr>
+            <tr><td><span class="rank">1</span></td><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/openai" alt="OpenAI">Goose — CLI (GPT-4.1)</div></td><td>55.5%</td></tr>
+            <tr><td><span class="rank">2</span></td><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/openai" alt="OpenAI">Cline — IDE (GPT-4.1)</div></td><td>54.6%</td></tr>
+            <tr><td><span class="rank">2</span></td><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/openai" alt="OpenAI">Cline — IDE (GPT-4.1-nano)</div></td><td>54.6%</td></tr>
+            <tr><td><span class="rank">4</span></td><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/anthropic" alt="Anthropic">Claude Code — CLI (Claude 3.7 Sonnet)</div></td><td>48.8%</td></tr>
           </tbody>
         </table>
         <p class="table-note">Evaluated with problem statement provided. See the <a href="https://arxiv.org/abs/2507.12367">paper</a> for full results.</p>
@@ -396,12 +397,12 @@ assert torch.allclose(log_ndtr(input_tensor), expected, rtol=1e-3, atol=1e-3)</c
 
       <div id="tab-rag" class="tab-panel">
         <table>
-          <thead><tr><th>Model</th><th>Success Rate</th></tr></thead>
+          <thead><tr><th style="width:2rem">#</th><th>Model</th><th>Success Rate</th></tr></thead>
           <tbody>
-            <tr><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/anthropic" alt="Anthropic">Claude 4 Sonnet</div></td><td>59.4%</td></tr>
-            <tr><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/openai" alt="OpenAI">GPT-4.1</div></td><td>58.5%</td></tr>
-            <tr><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/google" alt="Google">Gemini 2.5 Pro</div></td><td>56.7%</td></tr>
-            <tr><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/anthropic" alt="Anthropic">Claude 3.7 Sonnet</div></td><td>56.1%</td></tr>
+            <tr><td><span class="rank">1</span></td><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/anthropic" alt="Anthropic">Claude 4 Sonnet</div></td><td>59.4%</td></tr>
+            <tr><td><span class="rank">2</span></td><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/openai" alt="OpenAI">GPT-4.1</div></td><td>58.5%</td></tr>
+            <tr><td><span class="rank">3</span></td><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/google" alt="Google">Gemini 2.5 Pro</div></td><td>56.7%</td></tr>
+            <tr><td><span class="rank">4</span></td><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/anthropic" alt="Anthropic">Claude 3.7 Sonnet</div></td><td>56.1%</td></tr>
           </tbody>
         </table>
         <p class="table-note">RAG with documentation retrieval boosts top models by ~10 pp over greedy decoding. See the <a href="https://arxiv.org/abs/2507.12367">paper</a> for full results.</p>
