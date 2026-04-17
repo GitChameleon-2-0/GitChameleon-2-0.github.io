@@ -144,6 +144,27 @@
       border-radius: 0 6px 6px 0;
     }
 
+    /* Tabs */
+    .tabs { display: flex; gap: 0; border-bottom: 2px solid #e5e7eb; margin-bottom: 1.2rem; }
+    .tab-btn {
+      padding: 0.55rem 1.1rem;
+      font-size: 0.88rem;
+      font-weight: 500;
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+      cursor: pointer;
+      color: #6b7280;
+      transition: color 0.15s;
+    }
+    .tab-btn:hover { color: #1d4ed8; }
+    .tab-btn.active { color: #1d4ed8; border-bottom-color: #1d4ed8; }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+    .table-note { font-size: 0.82rem; color: #9ca3af; margin-top: 0.6rem; }
+    .divider-row td { border-top: 2px solid #e5e7eb; font-size: 0.75rem; color: #9ca3af; padding-top: 0.6rem; font-style: italic; }
+
     /* Results */
     table {
       width: 100%;
@@ -316,21 +337,73 @@ assert torch.allclose(log_ndtr(input_tensor), expected, rtol=1e-3, atol=1e-3)</c
 
     <section id="results">
       <h2>Results</h2>
-      <p>We evaluated a broad set of AI systems under execution-based evaluation with pinned library environments.</p>
-      <table>
-        <thead>
-          <tr><th>System Type</th><th>Success Rate</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>Enterprise LLMs (best)</td><td>48–51%</td></tr>
-          <tr><td>LLM-powered agents</td><td>&lt; enterprise LLMs</td></tr>
-          <tr><td>Code assistants</td><td>&lt; enterprise LLMs</td></tr>
-          <tr><td>RAG systems</td><td>&lt; enterprise LLMs</td></tr>
-        </tbody>
-      </table>
-      <p style="font-size:0.85rem;color:#6b7280;margin-top:0.75rem;">
-        Full results in the <a href="https://arxiv.org/abs/2507.12367">paper</a>.
-      </p>
+      <p>Hidden test success rates across four evaluation paradigms. Even the strongest models leave substantial room for improvement.</p>
+
+      <div class="tabs" role="tablist">
+        <button class="tab-btn active" role="tab" onclick="switchTab(event,'tab-llm')">LLMs</button>
+        <button class="tab-btn" role="tab" onclick="switchTab(event,'tab-agents')">Agents</button>
+        <button class="tab-btn" role="tab" onclick="switchTab(event,'tab-assistants')">Coding Assistants</button>
+        <button class="tab-btn" role="tab" onclick="switchTab(event,'tab-rag')">RAG</button>
+      </div>
+
+      <div id="tab-llm" class="tab-panel active">
+        <table>
+          <thead><tr><th>Model</th><th>Success Rate</th></tr></thead>
+          <tbody>
+            <tr><td>o1</td><td>51.2%</td></tr>
+            <tr><td>Gemini 2.5 Pro</td><td>50.0%</td></tr>
+            <tr><td>GPT-4o</td><td>49.1%</td></tr>
+            <tr><td>Claude 3.7 Sonnet</td><td>48.8%</td></tr>
+            <tr><td>GPT-4.1</td><td>48.5%</td></tr>
+            <tr><td>Grok 3</td><td>48.2%</td></tr>
+            <tr class="divider-row"><td colspan="2">Open-weights models</td></tr>
+            <tr><td>Qwen 2.5-VL Instruct 72B</td><td>48.2%</td></tr>
+            <tr><td>Llama 4 Maverick 400B</td><td>40.8%</td></tr>
+            <tr><td>Llama 3.3 Instruct Turbo 70B</td><td>36.3%</td></tr>
+            <tr><td>Llama 3.1 Instruct Turbo</td><td>30.2%</td></tr>
+          </tbody>
+        </table>
+        <p class="table-note">Greedy decoding. Self-debugging improves all models by ~10–20 pp — see the <a href="https://arxiv.org/abs/2507.12367">paper</a> for full results.</p>
+      </div>
+
+      <div id="tab-agents" class="tab-panel">
+        <table>
+          <thead><tr><th>Model + Search Tool</th><th>Success Rate</th></tr></thead>
+          <tbody>
+            <tr><td>Claude Sonnet 3.5 + DuckDuckGo</td><td>55.3%</td></tr>
+            <tr><td>Claude Sonnet 3.5 + Perplexity</td><td>51.4%</td></tr>
+            <tr><td>Gemini 1.5 Pro + Perplexity</td><td>46.5%</td></tr>
+            <tr><td>Gemini 1.5 Pro + DuckDuckGo</td><td>46.0%</td></tr>
+          </tbody>
+        </table>
+        <p class="table-note">Multi-step agent setup with sandbox execution. See the <a href="https://arxiv.org/abs/2507.12367">paper</a> for full results.</p>
+      </div>
+
+      <div id="tab-assistants" class="tab-panel">
+        <table>
+          <thead><tr><th>Tool (Model)</th><th>Success Rate</th></tr></thead>
+          <tbody>
+            <tr><td>Goose — CLI (GPT-4.1)</td><td>55.5%</td></tr>
+            <tr><td>Cline — IDE (GPT-4.1)</td><td>54.6%</td></tr>
+            <tr><td>Cline — IDE (GPT-4.1-nano)</td><td>54.6%</td></tr>
+            <tr><td>Claude Code — CLI (Claude 3.7 Sonnet)</td><td>48.8%</td></tr>
+          </tbody>
+        </table>
+        <p class="table-note">Evaluated with problem statement provided. See the <a href="https://arxiv.org/abs/2507.12367">paper</a> for full results.</p>
+      </div>
+
+      <div id="tab-rag" class="tab-panel">
+        <table>
+          <thead><tr><th>Model</th><th>Success Rate</th></tr></thead>
+          <tbody>
+            <tr><td>Claude 4 Sonnet</td><td>59.4%</td></tr>
+            <tr><td>GPT-4.1</td><td>58.5%</td></tr>
+            <tr><td>Gemini 2.5 Pro</td><td>56.7%</td></tr>
+            <tr><td>Claude 3.7 Sonnet</td><td>56.1%</td></tr>
+          </tbody>
+        </table>
+        <p class="table-note">RAG with documentation retrieval boosts top models by ~10 pp over greedy decoding. See the <a href="https://arxiv.org/abs/2507.12367">paper</a> for full results.</p>
+      </div>
     </section>
 
     <section id="start">
@@ -400,6 +473,13 @@ ds = load_dataset("cabbage972/GitChameleon-2.0", "problems")</code></pre>
 </footer>
 
 <script>
+function switchTab(e, id) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  e.currentTarget.classList.add('active');
+  document.getElementById(id).classList.add('active');
+}
+
 function copyBibtex() {
   const el = document.getElementById('bibtex');
   const text = el.innerText.replace('Copy\n', '');
