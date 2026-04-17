@@ -164,10 +164,11 @@
     .tab-panel.active { display: block; }
     .table-note { font-size: 0.82rem; color: #9ca3af; margin-top: 0.6rem; }
     .divider-row td { border-top: 2px solid #e5e7eb; font-size: 0.75rem; color: #9ca3af; padding-top: 0.6rem; font-style: italic; }
-    .model-cell { display: flex; align-items: center; gap: 8px; }
+    .model-cell { display: flex; align-items: center; gap: 8px; min-width: 0; }
+    .model-cell span { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .model-icon { width: 18px; height: 18px; flex-shrink: 0; border-radius: 3px; }
-    .icon-stack { display: flex; gap: 3px; align-items: center; }
-    .icon-sep { font-size: 0.7rem; color: #d1d5db; }
+    .icon-group { display: flex; align-items: center; gap: 3px; flex-shrink: 0; }
+    .icon-sep { font-size: 0.7rem; color: #d1d5db; line-height: 1; }
     .rank { display: inline-block; width: 1.4rem; text-align: right; font-size: 0.8rem; color: #9ca3af; font-variant-numeric: tabular-nums; flex-shrink: 0; }
     .setup-note { font-size: 0.88rem; color: #4b5563; background: #f8fafc; border: 1px solid #e5e7eb; border-radius: 8px; padding: 0.75rem 1rem; margin-bottom: 1rem; }
 
@@ -358,17 +359,17 @@ assert torch.allclose(log_ndtr(input_tensor), expected, rtol=1e-3, atol=1e-3)</c
         <table>
           <thead><tr><th style="width:2rem">#</th><th>Model</th><th>Success Rate</th></tr></thead>
           <tbody>
-            <tr><td><span class="rank">1</span></td><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/openai" alt="OpenAI">o1</div></td><td>51.2%</td></tr>
-            <tr><td><span class="rank">2</span></td><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/googlegemini" alt="Gemini">Gemini 2.5 Pro</div></td><td>50.0%</td></tr>
-            <tr><td><span class="rank">3</span></td><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/openai" alt="OpenAI">GPT-4o</div></td><td>49.1%</td></tr>
-            <tr><td><span class="rank">4</span></td><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/anthropic" alt="Anthropic">Claude 3.7 Sonnet</div></td><td>48.8%</td></tr>
-            <tr><td><span class="rank">5</span></td><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/openai" alt="OpenAI">GPT-4.1</div></td><td>48.5%</td></tr>
-            <tr><td><span class="rank">6</span></td><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/x" alt="xAI">Grok 3</div></td><td>48.2%</td></tr>
+            <tr><td><span class="rank">1</span></td><td><div class="model-cell"><div class="icon-group"><img class="model-icon" src="https://cdn.simpleicons.org/openai" alt="OpenAI"></div><span>o1</span></div></td><td>51.2%</td></tr>
+            <tr><td><span class="rank">2</span></td><td><div class="model-cell"><div class="icon-group"><img class="model-icon" src="https://cdn.simpleicons.org/googlegemini" alt="Gemini"></div><span>Gemini 2.5 Pro</span></div></td><td>50.0%</td></tr>
+            <tr><td><span class="rank">3</span></td><td><div class="model-cell"><div class="icon-group"><img class="model-icon" src="https://cdn.simpleicons.org/openai" alt="OpenAI"></div><span>GPT-4o</span></div></td><td>49.1%</td></tr>
+            <tr><td><span class="rank">4</span></td><td><div class="model-cell"><div class="icon-group"><img class="model-icon" src="https://cdn.simpleicons.org/anthropic" alt="Anthropic"></div><span>Claude 3.7 Sonnet</span></div></td><td>48.8%</td></tr>
+            <tr><td><span class="rank">5</span></td><td><div class="model-cell"><div class="icon-group"><img class="model-icon" src="https://cdn.simpleicons.org/openai" alt="OpenAI"></div><span>GPT-4.1</span></div></td><td>48.5%</td></tr>
+            <tr><td><span class="rank">6</span></td><td><div class="model-cell"><div class="icon-group"><img class="model-icon" src="https://cdn.simpleicons.org/x" alt="xAI"></div><span>Grok 3</span></div></td><td>48.2%</td></tr>
             <tr class="divider-row"><td></td><td colspan="2">Open-weights models</td></tr>
-            <tr><td><span class="rank">7</span></td><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/alibabacloud" alt="Alibaba">Qwen 2.5-VL Instruct 72B</div></td><td>48.2%</td></tr>
-            <tr><td><span class="rank">8</span></td><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/meta" alt="Meta">Llama 4 Maverick 400B</div></td><td>40.8%</td></tr>
-            <tr><td><span class="rank">9</span></td><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/meta" alt="Meta">Llama 3.3 Instruct Turbo 70B</div></td><td>36.3%</td></tr>
-            <tr><td><span class="rank">10</span></td><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/meta" alt="Meta">Llama 3.1 Instruct Turbo</div></td><td>30.2%</td></tr>
+            <tr><td><span class="rank">7</span></td><td><div class="model-cell"><div class="icon-group"><img class="model-icon" src="https://cdn.simpleicons.org/alibabacloud" alt="Alibaba"></div><span>Qwen 2.5-VL Instruct 72B</span></div></td><td>48.2%</td></tr>
+            <tr><td><span class="rank">8</span></td><td><div class="model-cell"><div class="icon-group"><img class="model-icon" src="https://cdn.simpleicons.org/meta" alt="Meta"></div><span>Llama 4 Maverick 400B</span></div></td><td>40.8%</td></tr>
+            <tr><td><span class="rank">9</span></td><td><div class="model-cell"><div class="icon-group"><img class="model-icon" src="https://cdn.simpleicons.org/meta" alt="Meta"></div><span>Llama 3.3 Instruct Turbo 70B</span></div></td><td>36.3%</td></tr>
+            <tr><td><span class="rank">10</span></td><td><div class="model-cell"><div class="icon-group"><img class="model-icon" src="https://cdn.simpleicons.org/meta" alt="Meta"></div><span>Llama 3.1 Instruct Turbo</span></div></td><td>30.2%</td></tr>
           </tbody>
         </table>
         <p class="table-note">Self-debugging (iterative re-prompting on test failure) improves all models by ~10–20 pp — see the <a href="https://arxiv.org/abs/2507.12367">paper</a> for full results.</p>
@@ -379,10 +380,10 @@ assert torch.allclose(log_ndtr(input_tensor), expected, rtol=1e-3, atol=1e-3)</c
         <table>
           <thead><tr><th style="width:2rem">#</th><th>Model + Search Tool</th><th>Success Rate</th></tr></thead>
           <tbody>
-            <tr><td><span class="rank">1</span></td><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/anthropic" alt="Anthropic"><span class="icon-sep">+</span><img class="model-icon" src="https://cdn.simpleicons.org/duckduckgo" alt="DuckDuckGo">Claude Sonnet 3.5 + DuckDuckGo</div></td><td>55.3%</td></tr>
-            <tr><td><span class="rank">2</span></td><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/anthropic" alt="Anthropic"><span class="icon-sep">+</span><img class="model-icon" src="https://cdn.simpleicons.org/perplexity" alt="Perplexity">Claude Sonnet 3.5 + Perplexity</div></td><td>51.4%</td></tr>
-            <tr><td><span class="rank">3</span></td><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/googlegemini" alt="Gemini"><span class="icon-sep">+</span><img class="model-icon" src="https://cdn.simpleicons.org/perplexity" alt="Perplexity">Gemini 1.5 Pro + Perplexity</div></td><td>46.5%</td></tr>
-            <tr><td><span class="rank">4</span></td><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/googlegemini" alt="Gemini"><span class="icon-sep">+</span><img class="model-icon" src="https://cdn.simpleicons.org/duckduckgo" alt="DuckDuckGo">Gemini 1.5 Pro + DuckDuckGo</div></td><td>46.0%</td></tr>
+            <tr><td><span class="rank">1</span></td><td><div class="model-cell"><div class="icon-group"><img class="model-icon" src="https://cdn.simpleicons.org/anthropic" alt="Anthropic"><span class="icon-sep">+</span><img class="model-icon" src="https://cdn.simpleicons.org/duckduckgo" alt="DuckDuckGo"></div><span>Claude Sonnet 3.5 + DuckDuckGo</span></div></td><td>55.3%</td></tr>
+            <tr><td><span class="rank">2</span></td><td><div class="model-cell"><div class="icon-group"><img class="model-icon" src="https://cdn.simpleicons.org/anthropic" alt="Anthropic"><span class="icon-sep">+</span><img class="model-icon" src="https://cdn.simpleicons.org/perplexity" alt="Perplexity"></div><span>Claude Sonnet 3.5 + Perplexity</span></div></td><td>51.4%</td></tr>
+            <tr><td><span class="rank">3</span></td><td><div class="model-cell"><div class="icon-group"><img class="model-icon" src="https://cdn.simpleicons.org/googlegemini" alt="Gemini"><span class="icon-sep">+</span><img class="model-icon" src="https://cdn.simpleicons.org/perplexity" alt="Perplexity"></div><span>Gemini 1.5 Pro + Perplexity</span></div></td><td>46.5%</td></tr>
+            <tr><td><span class="rank">4</span></td><td><div class="model-cell"><div class="icon-group"><img class="model-icon" src="https://cdn.simpleicons.org/googlegemini" alt="Gemini"><span class="icon-sep">+</span><img class="model-icon" src="https://cdn.simpleicons.org/duckduckgo" alt="DuckDuckGo"></div><span>Gemini 1.5 Pro + DuckDuckGo</span></div></td><td>46.0%</td></tr>
           </tbody>
         </table>
         <p class="table-note">See the <a href="https://arxiv.org/abs/2507.12367">paper</a> for full results including no-sandbox ablations.</p>
@@ -393,10 +394,10 @@ assert torch.allclose(log_ndtr(input_tensor), expected, rtol=1e-3, atol=1e-3)</c
         <table>
           <thead><tr><th style="width:2rem">#</th><th>Tool + Model</th><th>Success Rate</th></tr></thead>
           <tbody>
-            <tr><td><span class="rank">1</span></td><td><div class="model-cell"><img class="model-icon" src="https://avatars.githubusercontent.com/u/166195435" alt="Goose"><span class="icon-sep">·</span><img class="model-icon" src="https://cdn.simpleicons.org/openai" alt="OpenAI">Goose CLI (GPT-4.1)</div></td><td>55.5%</td></tr>
-            <tr><td><span class="rank">2</span></td><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/cline" alt="Cline"><span class="icon-sep">·</span><img class="model-icon" src="https://cdn.simpleicons.org/openai" alt="OpenAI">Cline IDE (GPT-4.1)</div></td><td>54.6%</td></tr>
-            <tr><td><span class="rank">2</span></td><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/cline" alt="Cline"><span class="icon-sep">·</span><img class="model-icon" src="https://cdn.simpleicons.org/openai" alt="OpenAI">Cline IDE (GPT-4.1-nano)</div></td><td>54.6%</td></tr>
-            <tr><td><span class="rank">4</span></td><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/anthropic" alt="Anthropic"><span class="icon-sep">·</span><img class="model-icon" src="https://cdn.simpleicons.org/anthropic" alt="Anthropic">Claude Code CLI (Claude 3.7 Sonnet)</div></td><td>48.8%</td></tr>
+            <tr><td><span class="rank">1</span></td><td><div class="model-cell"><div class="icon-group"><img class="model-icon" src="https://avatars.githubusercontent.com/u/166195435" alt="Goose"><span class="icon-sep">·</span><img class="model-icon" src="https://cdn.simpleicons.org/openai" alt="OpenAI"></div><span>Goose CLI (GPT-4.1)</span></div></td><td>55.5%</td></tr>
+            <tr><td><span class="rank">2</span></td><td><div class="model-cell"><div class="icon-group"><img class="model-icon" src="https://cdn.simpleicons.org/cline" alt="Cline"><span class="icon-sep">·</span><img class="model-icon" src="https://cdn.simpleicons.org/openai" alt="OpenAI"></div><span>Cline IDE (GPT-4.1)</span></div></td><td>54.6%</td></tr>
+            <tr><td><span class="rank">2</span></td><td><div class="model-cell"><div class="icon-group"><img class="model-icon" src="https://cdn.simpleicons.org/cline" alt="Cline"><span class="icon-sep">·</span><img class="model-icon" src="https://cdn.simpleicons.org/openai" alt="OpenAI"></div><span>Cline IDE (GPT-4.1-nano)</span></div></td><td>54.6%</td></tr>
+            <tr><td><span class="rank">4</span></td><td><div class="model-cell"><div class="icon-group"><img class="model-icon" src="https://cdn.simpleicons.org/anthropic" alt="Anthropic"><span class="icon-sep">·</span><img class="model-icon" src="https://cdn.simpleicons.org/anthropic" alt="Anthropic"></div><span>Claude Code CLI (Claude 3.7 Sonnet)</span></div></td><td>48.8%</td></tr>
           </tbody>
         </table>
         <p class="table-note">See the <a href="https://arxiv.org/abs/2507.12367">paper</a> for full results including without-problem-statement ablations.</p>
@@ -407,10 +408,10 @@ assert torch.allclose(log_ndtr(input_tensor), expected, rtol=1e-3, atol=1e-3)</c
         <table>
           <thead><tr><th style="width:2rem">#</th><th>Model</th><th>Success Rate</th></tr></thead>
           <tbody>
-            <tr><td><span class="rank">1</span></td><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/anthropic" alt="Anthropic">Claude 4 Sonnet</div></td><td>59.4%</td></tr>
-            <tr><td><span class="rank">2</span></td><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/openai" alt="OpenAI">GPT-4.1</div></td><td>58.5%</td></tr>
-            <tr><td><span class="rank">3</span></td><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/googlegemini" alt="Gemini">Gemini 2.5 Pro</div></td><td>56.7%</td></tr>
-            <tr><td><span class="rank">4</span></td><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/anthropic" alt="Anthropic">Claude 3.7 Sonnet</div></td><td>56.1%</td></tr>
+            <tr><td><span class="rank">1</span></td><td><div class="model-cell"><div class="icon-group"><img class="model-icon" src="https://cdn.simpleicons.org/anthropic" alt="Anthropic"></div><span>Claude 4 Sonnet</span></div></td><td>59.4%</td></tr>
+            <tr><td><span class="rank">2</span></td><td><div class="model-cell"><div class="icon-group"><img class="model-icon" src="https://cdn.simpleicons.org/openai" alt="OpenAI"></div><span>GPT-4.1</span></div></td><td>58.5%</td></tr>
+            <tr><td><span class="rank">3</span></td><td><div class="model-cell"><div class="icon-group"><img class="model-icon" src="https://cdn.simpleicons.org/googlegemini" alt="Gemini"></div><span>Gemini 2.5 Pro</span></div></td><td>56.7%</td></tr>
+            <tr><td><span class="rank">4</span></td><td><div class="model-cell"><div class="icon-group"><img class="model-icon" src="https://cdn.simpleicons.org/anthropic" alt="Anthropic"></div><span>Claude 3.7 Sonnet</span></div></td><td>56.1%</td></tr>
           </tbody>
         </table>
         <p class="table-note">RAG boosts top models by ~10 pp over greedy decoding. See the <a href="https://arxiv.org/abs/2507.12367">paper</a> for full results.</p>
