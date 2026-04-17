@@ -166,7 +166,10 @@
     .divider-row td { border-top: 2px solid #e5e7eb; font-size: 0.75rem; color: #9ca3af; padding-top: 0.6rem; font-style: italic; }
     .model-cell { display: flex; align-items: center; gap: 8px; }
     .model-icon { width: 18px; height: 18px; flex-shrink: 0; border-radius: 3px; }
+    .icon-stack { display: flex; gap: 3px; align-items: center; }
+    .icon-sep { font-size: 0.7rem; color: #d1d5db; }
     .rank { display: inline-block; width: 1.4rem; text-align: right; font-size: 0.8rem; color: #9ca3af; font-variant-numeric: tabular-nums; flex-shrink: 0; }
+    .setup-note { font-size: 0.88rem; color: #4b5563; background: #f8fafc; border: 1px solid #e5e7eb; border-radius: 8px; padding: 0.75rem 1rem; margin-bottom: 1rem; }
 
     /* Results */
     table {
@@ -351,11 +354,12 @@ assert torch.allclose(log_ndtr(input_tensor), expected, rtol=1e-3, atol=1e-3)</c
       </div>
 
       <div id="tab-llm" class="tab-panel active">
+        <p class="setup-note">Models receive the problem statement and starting code stub and must complete the function in a single forward pass with greedy decoding. No tool use, web search, or iterative refinement — a direct measure of version-specific knowledge baked into model weights.</p>
         <table>
           <thead><tr><th style="width:2rem">#</th><th>Model</th><th>Success Rate</th></tr></thead>
           <tbody>
             <tr><td><span class="rank">1</span></td><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/openai" alt="OpenAI">o1</div></td><td>51.2%</td></tr>
-            <tr><td><span class="rank">2</span></td><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/google" alt="Google">Gemini 2.5 Pro</div></td><td>50.0%</td></tr>
+            <tr><td><span class="rank">2</span></td><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/googlegemini" alt="Gemini">Gemini 2.5 Pro</div></td><td>50.0%</td></tr>
             <tr><td><span class="rank">3</span></td><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/openai" alt="OpenAI">GPT-4o</div></td><td>49.1%</td></tr>
             <tr><td><span class="rank">4</span></td><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/anthropic" alt="Anthropic">Claude 3.7 Sonnet</div></td><td>48.8%</td></tr>
             <tr><td><span class="rank">5</span></td><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/openai" alt="OpenAI">GPT-4.1</div></td><td>48.5%</td></tr>
@@ -367,46 +371,49 @@ assert torch.allclose(log_ndtr(input_tensor), expected, rtol=1e-3, atol=1e-3)</c
             <tr><td><span class="rank">10</span></td><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/meta" alt="Meta">Llama 3.1 Instruct Turbo</div></td><td>30.2%</td></tr>
           </tbody>
         </table>
-        <p class="table-note">Greedy decoding. Self-debugging improves all models by ~10–20 pp — see the <a href="https://arxiv.org/abs/2507.12367">paper</a> for full results.</p>
+        <p class="table-note">Self-debugging (iterative re-prompting on test failure) improves all models by ~10–20 pp — see the <a href="https://arxiv.org/abs/2507.12367">paper</a> for full results.</p>
       </div>
 
       <div id="tab-agents" class="tab-panel">
+        <p class="setup-note">Multi-step agentic loop with live web search (DuckDuckGo or Perplexity) and sandboxed code execution. Agents can iteratively retrieve version-specific documentation, run their code, and refine their solution before final submission.</p>
         <table>
           <thead><tr><th style="width:2rem">#</th><th>Model + Search Tool</th><th>Success Rate</th></tr></thead>
           <tbody>
-            <tr><td><span class="rank">1</span></td><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/anthropic" alt="Anthropic">Claude Sonnet 3.5 + DuckDuckGo</div></td><td>55.3%</td></tr>
-            <tr><td><span class="rank">2</span></td><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/anthropic" alt="Anthropic">Claude Sonnet 3.5 + Perplexity</div></td><td>51.4%</td></tr>
-            <tr><td><span class="rank">3</span></td><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/google" alt="Google">Gemini 1.5 Pro + Perplexity</div></td><td>46.5%</td></tr>
-            <tr><td><span class="rank">4</span></td><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/google" alt="Google">Gemini 1.5 Pro + DuckDuckGo</div></td><td>46.0%</td></tr>
+            <tr><td><span class="rank">1</span></td><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/anthropic" alt="Anthropic"><span class="icon-sep">+</span><img class="model-icon" src="https://cdn.simpleicons.org/duckduckgo" alt="DuckDuckGo">Claude Sonnet 3.5 + DuckDuckGo</div></td><td>55.3%</td></tr>
+            <tr><td><span class="rank">2</span></td><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/anthropic" alt="Anthropic"><span class="icon-sep">+</span><img class="model-icon" src="https://cdn.simpleicons.org/perplexity" alt="Perplexity">Claude Sonnet 3.5 + Perplexity</div></td><td>51.4%</td></tr>
+            <tr><td><span class="rank">3</span></td><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/googlegemini" alt="Gemini"><span class="icon-sep">+</span><img class="model-icon" src="https://cdn.simpleicons.org/perplexity" alt="Perplexity">Gemini 1.5 Pro + Perplexity</div></td><td>46.5%</td></tr>
+            <tr><td><span class="rank">4</span></td><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/googlegemini" alt="Gemini"><span class="icon-sep">+</span><img class="model-icon" src="https://cdn.simpleicons.org/duckduckgo" alt="DuckDuckGo">Gemini 1.5 Pro + DuckDuckGo</div></td><td>46.0%</td></tr>
           </tbody>
         </table>
-        <p class="table-note">Multi-step agent setup with sandbox execution. See the <a href="https://arxiv.org/abs/2507.12367">paper</a> for full results.</p>
+        <p class="table-note">See the <a href="https://arxiv.org/abs/2507.12367">paper</a> for full results including no-sandbox ablations.</p>
       </div>
 
       <div id="tab-assistants" class="tab-panel">
+        <p class="setup-note">Off-the-shelf AI coding assistants evaluated end-to-end with no additional scaffolding. Each tool is given the problem statement and uses its default agentic loop — file editing, terminal access, and iterative self-correction — to produce a solution.</p>
         <table>
-          <thead><tr><th style="width:2rem">#</th><th>Tool (Model)</th><th>Success Rate</th></tr></thead>
+          <thead><tr><th style="width:2rem">#</th><th>Tool + Model</th><th>Success Rate</th></tr></thead>
           <tbody>
-            <tr><td><span class="rank">1</span></td><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/openai" alt="OpenAI">Goose — CLI (GPT-4.1)</div></td><td>55.5%</td></tr>
-            <tr><td><span class="rank">2</span></td><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/openai" alt="OpenAI">Cline — IDE (GPT-4.1)</div></td><td>54.6%</td></tr>
-            <tr><td><span class="rank">2</span></td><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/openai" alt="OpenAI">Cline — IDE (GPT-4.1-nano)</div></td><td>54.6%</td></tr>
-            <tr><td><span class="rank">4</span></td><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/anthropic" alt="Anthropic">Claude Code — CLI (Claude 3.7 Sonnet)</div></td><td>48.8%</td></tr>
+            <tr><td><span class="rank">1</span></td><td><div class="model-cell"><img class="model-icon" src="https://avatars.githubusercontent.com/u/166195435" alt="Goose"><span class="icon-sep">·</span><img class="model-icon" src="https://cdn.simpleicons.org/openai" alt="OpenAI">Goose CLI (GPT-4.1)</div></td><td>55.5%</td></tr>
+            <tr><td><span class="rank">2</span></td><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/cline" alt="Cline"><span class="icon-sep">·</span><img class="model-icon" src="https://cdn.simpleicons.org/openai" alt="OpenAI">Cline IDE (GPT-4.1)</div></td><td>54.6%</td></tr>
+            <tr><td><span class="rank">2</span></td><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/cline" alt="Cline"><span class="icon-sep">·</span><img class="model-icon" src="https://cdn.simpleicons.org/openai" alt="OpenAI">Cline IDE (GPT-4.1-nano)</div></td><td>54.6%</td></tr>
+            <tr><td><span class="rank">4</span></td><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/anthropic" alt="Anthropic"><span class="icon-sep">·</span><img class="model-icon" src="https://cdn.simpleicons.org/anthropic" alt="Anthropic">Claude Code CLI (Claude 3.7 Sonnet)</div></td><td>48.8%</td></tr>
           </tbody>
         </table>
-        <p class="table-note">Evaluated with problem statement provided. See the <a href="https://arxiv.org/abs/2507.12367">paper</a> for full results.</p>
+        <p class="table-note">See the <a href="https://arxiv.org/abs/2507.12367">paper</a> for full results including without-problem-statement ablations.</p>
       </div>
 
       <div id="tab-rag" class="tab-panel">
+        <p class="setup-note">Relevant library documentation for the pinned version is retrieved and prepended to the prompt before generation. This tests whether explicit grounding in version-correct docs can compensate for gaps in model knowledge.</p>
         <table>
           <thead><tr><th style="width:2rem">#</th><th>Model</th><th>Success Rate</th></tr></thead>
           <tbody>
             <tr><td><span class="rank">1</span></td><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/anthropic" alt="Anthropic">Claude 4 Sonnet</div></td><td>59.4%</td></tr>
             <tr><td><span class="rank">2</span></td><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/openai" alt="OpenAI">GPT-4.1</div></td><td>58.5%</td></tr>
-            <tr><td><span class="rank">3</span></td><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/google" alt="Google">Gemini 2.5 Pro</div></td><td>56.7%</td></tr>
+            <tr><td><span class="rank">3</span></td><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/googlegemini" alt="Gemini">Gemini 2.5 Pro</div></td><td>56.7%</td></tr>
             <tr><td><span class="rank">4</span></td><td><div class="model-cell"><img class="model-icon" src="https://cdn.simpleicons.org/anthropic" alt="Anthropic">Claude 3.7 Sonnet</div></td><td>56.1%</td></tr>
           </tbody>
         </table>
-        <p class="table-note">RAG with documentation retrieval boosts top models by ~10 pp over greedy decoding. See the <a href="https://arxiv.org/abs/2507.12367">paper</a> for full results.</p>
+        <p class="table-note">RAG boosts top models by ~10 pp over greedy decoding. See the <a href="https://arxiv.org/abs/2507.12367">paper</a> for full results.</p>
       </div>
     </section>
 
