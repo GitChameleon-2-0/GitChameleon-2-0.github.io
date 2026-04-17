@@ -366,6 +366,34 @@
     .copy-btn:hover { background: #475569; }
     .citation-note { font-size: 0.82rem; color: #9ca3af; margin-top: 0.6rem; }
 
+    /* Abstract disclosure */
+    details.abstract-disclosure { margin-top: 1.2rem; }
+    details.abstract-disclosure summary {
+      cursor: pointer;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: #6b7280;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      user-select: none;
+    }
+    details.abstract-disclosure summary::-webkit-details-marker { display: none; }
+    details.abstract-disclosure summary::after { content: "▾"; font-size: 0.75rem; transition: transform 0.2s; }
+    details.abstract-disclosure[open] summary::after { transform: rotate(-180deg); }
+    details.abstract-disclosure .abstract-body {
+      margin-top: 0.75rem;
+      font-size: 0.92rem;
+      color: #374151;
+      line-height: 1.7;
+      padding: 1rem 1.2rem;
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+    }
+    details.abstract-disclosure .abstract-body p:last-child { margin-bottom: 0; }
+
     /* FAQ */
     .faq { display: flex; flex-direction: column; gap: 0; border: 1px solid #e5e7eb; border-radius: 10px; overflow: hidden; background: #fff; }
     .faq-item { border-bottom: 1px solid #e5e7eb; }
@@ -500,6 +528,22 @@
           </div>
         </div>
       </div>
+
+      <details class="abstract-disclosure">
+        <summary>Read the full abstract</summary>
+        <div class="abstract-body">
+          <p>GitChameleon 2.0 is an AI coding benchmark comprising <strong>328 Python-based problems</strong>
+          conditioned on specific versions of popular libraries for scientific computing and web development.
+          It evaluates whether AI code generation models can correctly use library APIs <em>as they existed
+          at a particular version</em> — a challenging test of version-specific knowledge that existing
+          benchmarks largely ignore.</p>
+          <p>Unlike prior code benchmarks, GitChameleon 2.0 uses <strong>execution-based evaluation</strong>:
+          each problem is validated against unit tests that run in a pinned environment. Our evaluation of
+          large language models, LLM-powered agents, code assistants, and RAG systems reveals that even
+          the best enterprise models achieve only 48–51% success under greedy decoding, and up to 59%
+          with retrieval augmentation, highlighting a significant gap in practical library-version awareness.</p>
+        </div>
+      </details>
     </section>
 
     <!-- Stats -->
@@ -701,27 +745,6 @@ evaluate \
   url={https://arxiv.org/abs/2507.12367}
 }</div>
       <p class="citation-note">Cite the earlier GitChameleon paper only when specifically referring to the original 116-problem release.</p>
-    </section>
-
-    <!-- Abstract (for completeness) -->
-    <section id="abstract">
-      <h2>Abstract</h2>
-      <div class="abstract-text">
-        <p>
-          GitChameleon 2.0 is an AI coding benchmark comprising <strong>328 Python-based problems</strong>
-          conditioned on specific versions of popular libraries for scientific computing and web development.
-          It evaluates whether AI code generation models can correctly use library APIs <em>as they existed
-          at a particular version</em> — a challenging test of version-specific knowledge that existing
-          benchmarks largely ignore.
-        </p>
-        <p>
-          Unlike prior code benchmarks, GitChameleon 2.0 uses <strong>execution-based evaluation</strong>:
-          each problem is validated against unit tests that run in a pinned environment. Our evaluation of
-          large language models, LLM-powered agents, code assistants, and RAG systems reveals that even
-          the best enterprise models achieve only 48–51% success under greedy decoding, and up to 59%
-          with retrieval augmentation, highlighting a significant gap in practical library-version awareness.
-        </p>
-      </div>
     </section>
 
     <!-- FAQ -->
